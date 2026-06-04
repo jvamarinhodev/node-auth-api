@@ -38,7 +38,7 @@ export const postUserRegistration = async (req, res) => {
     if (err.code === '23505') {
       return res.status(409).json({
         success: false,
-        message: 'E-mail já cadastrado',
+        message: 'E-mail already registered',
       });
     }
     return res.status(500).json({ err: 'Server error', message: err.message });
