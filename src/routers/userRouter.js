@@ -9,5 +9,5 @@ const router = express.Router();
 
 router.post('/register', postUserRegistration);
 router.post('/login', postLoginAuthorization);
-router.get('auth/profile/', authorization, getListUser);
+router.get('/auth/profile/', authorization, getListUser);
 export default router;
