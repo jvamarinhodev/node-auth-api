@@ -13,7 +13,6 @@ export const postLoginAuthorization = async (req, res) => {
   }
   try {
     const identifiedUser = await searchEmail(email);
-    console.log(identifiedUser);
 
     if (!identifiedUser || identifiedUser.length === 0) {
       return res.status(400).json({
@@ -38,6 +37,8 @@ export const postLoginAuthorization = async (req, res) => {
         message: 'Login successful!',
         accessToken,
       });
+
+      console.log(accessToken);
     } else if (verify === false) {
       return res.status(400).json({
         success: false,
@@ -47,5 +48,4 @@ export const postLoginAuthorization = async (req, res) => {
   } catch (err) {
     return res.status(500).json({ err: 'Server error', message: err.message });
   }
-
 };
