@@ -24,3 +24,8 @@ export const getAllUsers = async () => {
   const result = await pool.query(`SELECT id, name, email FROM users`);
   return result.rows;
 };
+
+export const getUserByRefreshToken = async (refreshToken) => {
+  const result = await pool.query('SELECT * FROM users WHERE refreshToken = $1', [refreshToken]);
+  return result.rows;
+};
