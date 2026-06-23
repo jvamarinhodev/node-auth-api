@@ -29,3 +29,8 @@ export const getUserByRefreshToken = async (refreshToken) => {
   const result = await pool.query('SELECT * FROM users WHERE refreshToken = $1', [refreshToken]);
   return result.rows;
 };
+
+export const postLogout = async (refreshToken) => {
+  const result = await pool.query(`UPDATE users SET refreshToken = NULL WHERE refreshToken = $1 `, [refreshToken]);
+  return result.rows;
+};
