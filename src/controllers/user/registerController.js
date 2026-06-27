@@ -1,6 +1,10 @@
 import bcrypt from 'bcrypt';
 import { saveUser } from '../../database/queries/userQueries.js';
 import { passwordValidator, emailValidator, nameValidator } from '../../services/verifyInput.js';
+
+export const getUserRegistration = async (req, res) => {
+  res.render('auth/register');
+};
 // Register the user and save it to the database
 export const postUserRegistration = async (req, res) => {
   try {
