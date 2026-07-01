@@ -14,6 +14,8 @@ export const postUserRegistration = async (req, res) => {
     const emailError = emailValidator(email);
     const passwordError = passwordValidator(password);
 
+    console.log(password);
+
     // Transforms the error output into an object, clearly stating the error and the field affected
     const errorValidator = [
       ...nameError.map((msg) => ({ field: 'Name', message: msg })),
