@@ -2,9 +2,6 @@ import bcrypt from 'bcrypt';
 import { saveUser } from '../../database/queries/userQueries.js';
 import { passwordValidator, emailValidator, nameValidator } from '../../services/verifyInput.js';
 
-export const getUserRegistration = async (req, res) => {
-  res.render('auth/register');
-};
 // Register the user and save it to the database
 export const postUserRegistration = async (req, res) => {
   try {
@@ -13,8 +10,6 @@ export const postUserRegistration = async (req, res) => {
     const nameError = nameValidator(name);
     const emailError = emailValidator(email);
     const passwordError = passwordValidator(password);
-
-    console.log(password);
 
     // Transforms the error output into an object, clearly stating the error and the field affected
     const errorValidator = [
@@ -33,6 +28,8 @@ export const postUserRegistration = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, 6); // Transform the user's password into a hash
 
     const id = await saveUser(name, email, passwordHash);
+
+    console.log(id);
 
     return res.status(201).json({
       success: true,
