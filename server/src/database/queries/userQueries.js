@@ -1,4 +1,4 @@
-import pool from '../conection.js';
+import pool from '../connection.js';
 
 export const saveUser = async (name, email, passwordHash) => {
   const result = await pool.query(`INSERT INTO users (name, email, password ) VALUES ($1, $2, $3) RETURNING id`, [
