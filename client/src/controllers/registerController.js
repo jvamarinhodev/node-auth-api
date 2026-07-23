@@ -21,7 +21,7 @@ export const postRegister = async (req, res) => {
         message: 'Error',
       });
     }
-    res.render('auth/login');
+    res.redirect('/login');
   } catch (error) {
     res.status(500).send(`Error: ${error.message}`);
   }
