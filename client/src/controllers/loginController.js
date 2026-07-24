@@ -22,7 +22,9 @@ export const postLogin = async (req, res) => {
       });
     }
 
-    res.render('dashboard/index');
+    res.render('dashboard/index', {
+      title: 'Dashboard',
+    });
   } catch (error) {
     res.status(500).send(`Error: ${error.message}`);
   }
