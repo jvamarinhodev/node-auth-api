@@ -2,8 +2,6 @@ export const apiClient = async (endpoint, option = {}) => {
   const clearEndpoint = endpoint.replace(/^\//, '');
   const url = `${process.env.API_URL}${clearEndpoint}`;
 
-  console.log(url);
-
   const headers = {
     'Content-Type': 'application/json',
     ...option.headers,
@@ -15,10 +13,13 @@ export const apiClient = async (endpoint, option = {}) => {
     body: option.body,
   });
 
-  if (!response.ok) {
-    const errorBody = await response.text();
-    throw new Error(`API error: ${response.status} - ${errorBody}`);
-  }
+  const data = await response.json();
 
-  return response.json();
+  if (!response.ok) {
+    const error = new Error(data.error?.[0]?.message || 'API error');
+    error.status = response.status;
+    error.details = data.error;
+    throw error;
+  }
+  return data;
 };

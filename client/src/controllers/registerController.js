@@ -15,14 +15,19 @@ export const postRegister = async (req, res) => {
       body: JSON.stringify(req.body),
     });
 
-    if (!response) {
-      return res.status(400).json({
-        success: false,
-        message: 'Error',
-      });
-    }
     res.redirect('/login');
   } catch (error) {
-    res.status(500).send(`Error: ${error.message}`);
+    // error validator
+    if (error.status === 400 && error.details) {
+      return res.render('auth/register', {
+        error: error.details,
+        values: req.body,
+      });
+    }
+    //global error
+    return res.render('auth/register', {
+      globalError: 'Something went wrong. Try again!',
+      values: req.body,
+    });
   }
 };
