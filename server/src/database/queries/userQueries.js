@@ -16,7 +16,7 @@ export const searchEmail = async (email) => {
 };
 
 export const saveRefreshToken = async (refreshToken, userID) => {
-  const result = await pool.query(`UPDATE users SET refreshToken = $1 WHERE id = $2`, [refreshToken, userID]);
+  const result = await pool.query(`UPDATE users SET refresh_token = $1 WHERE id = $2`, [refreshToken, userID]);
   return result;
 };
 
@@ -26,11 +26,11 @@ export const getAllUsers = async () => {
 };
 
 export const getUserByRefreshToken = async (refreshToken) => {
-  const result = await pool.query('SELECT * FROM users WHERE refreshToken = $1', [refreshToken]);
+  const result = await pool.query('SELECT * FROM users WHERE refresh_token = $1', [refreshToken]);
   return result.rows;
 };
 
 export const postLogout = async (refreshToken) => {
-  const result = await pool.query(`UPDATE users SET refreshToken = NULL WHERE refreshToken = $1 `, [refreshToken]);
+  const result = await pool.query(`UPDATE users SET refreshToken = NULL WHERE refresh_token = $1 `, [refreshToken]);
   return result.rows;
 };
