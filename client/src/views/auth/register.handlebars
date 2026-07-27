@@ -8,52 +8,55 @@
       href='https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=JetBrains+Mono:wght@400;500;600&display=swap'
       rel='stylesheet'
     />
-    <link rel='stylesheet' href='/css/style.css' />
+    <link rel='stylesheet' href='/css/initial.css' />
   </head>
   <body>
     <div class='stars'></div>
 
-    {{#if error}}
-      <ul class='error'>
-        {{#each error}}
-          <li>{{this.field}}: {{this.message}}</li>
-        {{/each}}
-      </ul>
-    {{/if}}
+    <div class='layout'>
 
-    {{#if globalError}}
-      <div class='error-global'>{{globalError}}</div>
-    {{/if}}
+      {{#if error}}
+        <ul class='error'>
+          {{#each error}}
+            <li>{{this.field}}: {{this.message}}</li>
+          {{/each}}
+        </ul>
+      {{/if}}
 
-    <form action='/register' method='post' class='card' autocomplete='off'>
-      <div class='eyebrow'>Restricted access</div>
-      <h1>Welcome</h1>
+      {{#if globalError}}
+        <div class='error-global'>{{globalError}}</div>
+      {{/if}}
 
-      <div class='field'>
-        <label for='email'>Name</label>
-        <input type='text' id='name' name='name' placeholder='your name' value='{{values.name}}' required />
-      </div>
+      <form action='/register' method='post' class='card' autocomplete='off'>
+        <div class='eyebrow'>Restricted access</div>
+        <h1>Welcome</h1>
 
-      <div class='field'>
-        <label for='email'>E-mail</label>
-        <input
-          type='email'
-          id='email'
-          name='email'
-          placeholder='your-email@example.com'
-          value='{{values.email}}'
-          required
-        />
-      </div>
+        <div class='field'>
+          <label for='name'>Name</label>
+          <input type='text' id='name' name='name' placeholder='your name' value='{{values.name}}' required />
+        </div>
 
-      <div class='field'>
-        <label for='password'>Password</label>
-        <input type='password' id='password' name='password' placeholder='••••••••' required />
-      </div>
+        <div class='field'>
+          <label for='email'>E-mail</label>
+          <input
+            type='email'
+            id='email'
+            name='email'
+            placeholder='your-email@example.com'
+            value='{{values.email}}'
+            required
+          />
+        </div>
 
-      <button type='submit'>Register</button>
+        <div class='field'>
+          <label for='password'>Password</label>
+          <input type='password' id='password' name='password' placeholder='••••••••' required />
+        </div>
 
-      <div class='footer-note'>Do you have an account? <a href='/login' class='link'>Login</a></div>
-    </form>
+        <button type='submit'>Register</button>
+
+        <div class='footer-note'>Do you have an account? <a href='/login' class='link'>Login</a></div>
+      </form>
+    </div>
   </body>
 </html>
