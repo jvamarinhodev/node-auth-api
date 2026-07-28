@@ -1,8 +1,8 @@
 import { apiClient } from '../services/apiServices.js';
 
-export const getLogin = (req, res) => {
+export const getLogin = async (req, res) => {
   try {
-    res.render('auth/login');
+    res.render('auth/login', { layout: false });
   } catch (error) {
     res.status(500).send(`Error: ${error.message}`);
   }
@@ -15,17 +15,20 @@ export const postLogin = async (req, res) => {
       body: JSON.stringify(req.body),
     });
 
-    if (!response) {
-      return res.status(400).json({
-        success: false,
-        message: 'Error',
+    res.redirect('/dashboard');
+  } catch (error) {
+    if (error.status === 400 && error.data) {
+      return res.render('auth/login', {
+        layout: false,
+        globalError: error.data.message || error.data.massage,
+        values: req.body,
       });
     }
 
-    res.render('dashboard/index', {
-      title: 'Dashboard',
+    return res.render('auth/login', {
+      layout: false,
+      globalError: 'Something went wrong. Try again!',
+      values: req.body,
     });
-  } catch (error) {
-    res.status(500).send(`Error: ${error.message}`);
   }
 };
