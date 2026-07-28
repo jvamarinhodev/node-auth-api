@@ -16,9 +16,9 @@ export const apiClient = async (endpoint, option = {}) => {
   const data = await response.json();
 
   if (!response.ok) {
-    const error = new Error(data.error?.[0]?.message || 'API error');
+    const error = new Error(data.massage || 'API error');
     error.status = response.status;
-    error.details = data.error;
+    error.data = data;
     throw error;
   }
   return data;

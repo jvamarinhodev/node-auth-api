@@ -18,10 +18,10 @@ export const postRegister = async (req, res) => {
     res.redirect('/login');
   } catch (error) {
     // error validator
-    if (error.status === 400 && error.details) {
+    if (error.status === 400 && error.data?.error) {
       return res.render('auth/register', {
         layout: false,
-        error: error.details,
+        error: error.data.error,
         values: req.body,
       });
     }
