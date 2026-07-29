@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import path from 'path';
+import cookieParser from 'cookie-parser';
 import { engine } from 'express-handlebars';
 import { fileURLToPath } from 'url';
 import { router } from './src/routers/authRouter.js';
@@ -21,6 +22,7 @@ app.engine(
 
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'src/views'));
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // *! understand

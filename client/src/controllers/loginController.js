@@ -15,6 +15,12 @@ export const postLogin = async (req, res) => {
       body: JSON.stringify(req.body),
     });
 
+    const bodyObj = JSON.parse(response.body);
+
+    res.setHeader('Set-Cookie', [
+      `accessToken=${bodyObj.accessToken}; HTTPOnly; Secure; SemiSite=Strict; Path=/; Max-Age=900`
+    ])
+
     res.redirect('/dashboard');
   } catch (error) {
     if (error.status === 400 && error.data) {
