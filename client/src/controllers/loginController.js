@@ -17,9 +17,21 @@ export const postLogin = async (req, res) => {
 
     const bodyObj = JSON.parse(response.body);
 
-    res.setHeader('Set-Cookie', [
-      `accessToken=${bodyObj.accessToken}; HTTPOnly; Secure; SemiSite=Strict; Path=/; Max-Age=900`
-    ])
+    res.cookie('accessToken', bodyObj.accessToken, {
+      httpOnly: true,
+      secure: isPad,
+      sameSite: 'strict',
+      path: '/',
+      maxAge: 15 * 60 * 100,
+    });
+
+    res.cookie('refreshToken', bodyObj.refreshToken, {
+      httpOnly: true,
+      secure: isPad,
+      sameSite: 'strict',
+      path: '/',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     res.redirect('/dashboard');
   } catch (error) {
