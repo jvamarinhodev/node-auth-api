@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { saveRefreshToken, searchEmail } from '../../database/queries/userQueries.js';
 
-
 export const postLoginAuthorization = async (req, res) => {
   const { email, password } = req.body;
 
@@ -37,9 +36,10 @@ export const postLoginAuthorization = async (req, res) => {
         success: true,
         message: 'Login successful!',
         accessToken,
+        refreshToken,
       });
 
-      res.redirect('/dashboard')
+      res.redirect('/dashboard');
 
       console.log(accessToken);
     } else if (verify === false) {
