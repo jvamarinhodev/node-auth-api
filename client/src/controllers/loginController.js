@@ -15,26 +15,28 @@ export const postLogin = async (req, res) => {
       body: JSON.stringify(req.body),
     });
 
-    const bodyObj = JSON.parse(response.body);
+    const isProd = process.env.NODE_ENV === 'production';
 
-    res.cookie('accessToken', bodyObj.accessToken, {
+    res.cookie('accessToken', response.accessToken, {
       httpOnly: true,
-      secure: isPad,
+      secure: isProd,
       sameSite: 'strict',
       path: '/',
-      maxAge: 15 * 60 * 100,
+      maxAge: 15 * 60 * 1000,
     });
 
-    res.cookie('refreshToken', bodyObj.refreshToken, {
+    res.cookie('refreshToken', response.refreshToken, {
       httpOnly: true,
-      secure: isPad,
+      secure: isProd,
       sameSite: 'strict',
       path: '/',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.redirect('/dashboard');
+    res.render('dashboard/index');
   } catch (error) {
+    console.log(error);
+
     if (error.status === 400 && error.data) {
       return res.render('auth/login', {
         layout: false,
