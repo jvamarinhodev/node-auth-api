@@ -10,5 +10,5 @@ router.post('/register', postRegister);
 router.get('/register', getRegister);
 router.post('/login', postLogin);
 router.get('/login', getLogin);
-router.get('/private/profile', attachToken, getProfile);
-router.get('/private/profile', getProfileView);
+router.get('/private/profile', attachToken, getProfileView, getProfile);
+

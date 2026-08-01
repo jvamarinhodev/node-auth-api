@@ -33,7 +33,7 @@ export const postLogin = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.render('dashboard/index');
+    res.render('home/index');
   } catch (error) {
     console.log(error);
 
