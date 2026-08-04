@@ -1,8 +1,18 @@
 import { apiClient } from '../../services/apiServices.js';
 
-export const publicAccess = async (req, res) => {
+export const getPrivateAccess = async (req, res) => {
   try {
+    const token = req.cookies.accessToken;
+
+    const response = await apiClient('/auth/profile', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(req.body),
+    });
     res.render('dashboard/start');
+    console.log(response);
   } catch (error) {
     res.status(500).send(`error: ${error.message}`);
   }
