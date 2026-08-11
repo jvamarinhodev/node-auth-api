@@ -10,9 +10,10 @@ export const getPrivateAccess = async (req, res) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    res.render('dashboard/profile');
 
-    console.log(response[0].email);
+    res.render('dashboard/profile', { response });
+
+    console.log(response);
   } catch (error) {
     console.log(error);
 

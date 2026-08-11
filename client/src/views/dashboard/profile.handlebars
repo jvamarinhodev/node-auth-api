@@ -46,7 +46,7 @@
             <div class='panel-sub'>{{users.length}} registros</div>
           </div>
 
-          {{#if users.length}}
+          {{#if response.length}}
             <table>
               <thead>
                 <tr>
@@ -55,7 +55,7 @@
                 </tr>
               </thead>
               <tbody>
-                {{#each users}}
+                {{#each response}}
                   <tr>
                     <td>
                       <div class='row-user'>
