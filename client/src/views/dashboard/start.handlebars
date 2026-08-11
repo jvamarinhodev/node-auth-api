@@ -48,12 +48,12 @@
         <section class='panel'>
           <div class='panel-header'>
             <div class='panel-title'>Perfis públicos</div>
-            <div class='panel-sub'>{{users.length}} registro{{#unless (eq users.length 1)}}s{{/unless}}</div>
+            <div class='panel-sub'>{{response.length}} registro{{#unless (eq response.length 1)}}s{{/unless}}</div>
           </div>
 
-          {{#if users.length}}
+          {{#if response.length}}
             <div class='cards-grid'>
-              {{#each users}}
+              {{#each response}}
                 <div class='user-card'>
                   <div class='avatar'>{{initial this.name}}</div>
                   <div class='user-info'>
