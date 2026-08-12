@@ -25,12 +25,17 @@ export const postLoginAuthorization = async (req, res) => {
 
     const verify = await bcrypt.compare(password, hashPassword);
 
+    // convert milliseconds to days to ensure token expiration
+    const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+    const expiresAt = new Date(Date.now() + ONE_DAY_MS);
+
     if (verify === true) {
       const accessToken = jwt.sign({ id: identifiedUser.id }, process.env.JWT_ACCESS_TOKEN, { expiresIn: '10m' });
 
       const refreshToken = jwt.sign({ id: identifiedUser.id }, process.env.JWT_ACCESS_TOKEN, { expiresIn: '1d' });
+
       // Save refreshToken together user id
-      await saveRefreshToken(refreshToken, identifiedUser.id);
+      await saveRefreshToken(identifiedUser.id, refreshToken, expiresAt);
 
       return res.status(200).json({
         success: true,
