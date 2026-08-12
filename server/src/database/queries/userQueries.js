@@ -1,5 +1,5 @@
 import pool from '../connection.js';
-
+// modify the users table
 export const saveUser = async (name, email, passwordHash) => {
   const result = await pool.query(`INSERT INTO users (name, email, password ) VALUES ($1, $2, $3) RETURNING id`, [
     name,
@@ -9,15 +9,18 @@ export const saveUser = async (name, email, passwordHash) => {
 
   return result.rows[0].id;
 };
-
+// modify the users table
 export const searchEmail = async (email) => {
   const result = await pool.query(`SELECT id, password FROM users WHERE email = $1`, [email]);
   return result.rows[0];
 };
-
-export const saveRefreshToken = async (refreshToken, userID) => {
-  const result = await pool.query(`UPDATE users SET refresh_token = $1 WHERE id = $2`, [refreshToken, userID]);
-  return result;
+//modify the refresh_tokens table
+export const saveRefreshToken = async (userID, refreshToken, expiresAt) => {
+  const result = await pool.query(
+    `INSERT INTO refresh_tokens (user_id, token_hash, expires_at) VALUES ($1, $2, $3) RETURNING id`,
+    [userID, refreshToken, expiresAt]
+  );
+  return result.rows[0].id;
 };
 
 export const getAllUsers = async () => {
