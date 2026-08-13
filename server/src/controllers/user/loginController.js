@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import { saveRefreshToken, searchEmail } from '../../database/queries/userQueries.js';
 
 export const postLoginAuthorization = async (req, res) => {
@@ -30,12 +31,15 @@ export const postLoginAuthorization = async (req, res) => {
     const expiresAt = new Date(Date.now() + ONE_DAY_MS);
 
     if (verify === true) {
-      const accessToken = jwt.sign({ id: identifiedUser.id }, process.env.JWT_ACCESS_TOKEN, { expiresIn: '10m' });
+      const accessToken = jwt.sign({ id: identifiedUser.id }, process.env.JWT_ACCESS_TOKEN, { expiresIn: '1m' });
 
       const refreshToken = jwt.sign({ id: identifiedUser.id }, process.env.JWT_ACCESS_TOKEN, { expiresIn: '1d' });
 
+      // Convert the token into a unique hash for validation in the event of a database breach
+      const hashToken = crypto.createHash('sha256').update(refreshToken).digest('base64');
+
       // Save refreshToken together user id
-      await saveRefreshToken(identifiedUser.id, refreshToken, expiresAt);
+      await saveRefreshToken(identifiedUser.id, hashToken, expiresAt);
 
       return res.status(200).json({
         success: true,
