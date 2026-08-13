@@ -15,7 +15,18 @@ export const getPrivateAccess = async (req, res) => {
 
     console.log(response);
   } catch (error) {
-    console.log(error);
+    if (error.message != 'Invalid Token!') {
+      res.render('auth/login');
+    } else {
+      const response = await apiClient('/auth/refreshtoken', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      res.render('dashboard/profile', { response });
+    }
 
     res.status(500).send(`error: ${error.message}`);
   }
