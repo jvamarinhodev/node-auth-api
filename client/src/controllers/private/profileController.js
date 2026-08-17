@@ -12,22 +12,37 @@ export const getPrivateAccess = async (req, res) => {
     });
 
     res.render('dashboard/profile', { response });
-
-    console.log(response);
   } catch (error) {
-    if (error.message != 'Invalid Token!') {
-      res.render('auth/login');
-    } else {
-      const response = await apiClient('/auth/refreshtoken', {
+    console.log(error);
+
+    if (error.status !== 401) {
+      return res.render('auth/login');
+    }
+
+    try {
+      const refreshToken = req.cookies.refreshToken;
+
+      await apiClient('/auth/refreshtoken', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${refreshToken}`,
         },
       });
 
-      res.render('dashboard/profile', { response });
-    }
+      const newAccessToken = req.cookies.accessToken;
 
-    res.status(500).send(`error: ${error.message}`);
+      const profileResponse = await apiClient('/auth/profile', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${newAccessToken}`,
+        },
+      });
+
+      return res.render('dashboard/profile', { response: profileResponse });
+    } catch (refreshError) {
+      console.log(refreshError);
+
+      res.render('auth/login');
+    }
   }
 };
