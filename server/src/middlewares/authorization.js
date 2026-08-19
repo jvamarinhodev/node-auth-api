@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export const authorization = (req, res, next) => {
+export const authorization = (secretKey) => (req, res, next) => {
   const authorization = req.headers['authorization'];
   const token = authorization && authorization.split(' ')[1];
 
@@ -12,8 +12,6 @@ export const authorization = (req, res, next) => {
   }
 
   try {
-    const secretKey = process.env.JWT_ACCESS_TOKEN;
-
     const user = jwt.verify(token, secretKey);
 
     req.user = user;

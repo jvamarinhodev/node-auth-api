@@ -33,7 +33,7 @@ export const postLoginAuthorization = async (req, res) => {
     if (verify === true) {
       const accessToken = jwt.sign({ id: identifiedUser.id }, process.env.JWT_ACCESS_TOKEN, { expiresIn: '1m' });
 
-      const refreshToken = jwt.sign({ id: identifiedUser.id }, process.env.JWT_ACCESS_TOKEN, { expiresIn: '1d' });
+      const refreshToken = jwt.sign({ id: identifiedUser.id }, process.env.JWT_REFRESH_TOKEN, { expiresIn: '1d' });
 
       // Convert the token into a unique hash for validation in the event of a database breach
       const hashToken = crypto.createHash('sha256').update(refreshToken).digest('base64');

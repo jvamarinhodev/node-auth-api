@@ -12,8 +12,8 @@ const router = express.Router();
 
 router.post('/register', postUserRegistration);
 router.post('/login', postLoginAuthorization);
-router.get('/profile', getPublicAccess)
-router.get('/auth/profile/', authorization, getListUser);
-router.post('/auth/refreshtoken', postRefreshToken);
+router.get('/profile', getPublicAccess);
+router.get('/auth/profile/', authorization(process.env.JWT_ACCESS_TOKEN), getListUser);
+router.post('/auth/refreshtoken', authorization(process.env.JWT_REFRESH_TOKEN), postRefreshToken);
 router.post('/auth/logout', postLogoutUser);
 export default router;
