@@ -10,6 +10,7 @@ export const apiClient = async (endpoint, option = {}) => {
   const response = await fetch(url, {
     method: option.method || 'GET',
     headers,
+    credentials: 'include',
     body: option.body,
   });
 

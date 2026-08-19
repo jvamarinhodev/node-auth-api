@@ -3,7 +3,7 @@ export const attachToken = (req, res, next) => {
 
 
   if (!token) {
-    res.redirect('/login');
+    return res.redirect('/login');
   }
 
   req.accessToken = token;

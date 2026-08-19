@@ -12,4 +12,4 @@ router.get('/register', getRegister);
 router.post('/login', postLogin);
 router.get('/login', getLogin);
 router.get('/home/profile', getPublicAccess);
-router.get('/private/profile', getPrivateAccess);
+router.get('/private/profile', attachToken, getPrivateAccess);
