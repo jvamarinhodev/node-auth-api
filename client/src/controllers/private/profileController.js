@@ -22,19 +22,33 @@ export const getPrivateAccess = async (req, res) => {
     try {
       const refreshToken = req.cookies.refreshToken;
 
-      await apiClient('/auth/refreshtoken', {
+      const refreshTokenResponse = await apiClient('/auth/refreshtoken', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${refreshToken}`,
         },
       });
 
-      const newAccessToken = req.cookies.accessToken;
+      res.cookie('accessToken', refreshTokenResponse.accessToken, {
+        httpOnly: true,
+        secure: isProd,
+        sameSite: 'strict',
+        path: '/',
+        maxAge: 15 * 60 * 1000,
+      });
+
+      res.cookie('refreshToken', refreshTokenResponse.refreshToken, {
+        httpOnly: true,
+        secure: isProd,
+        sameSite: 'strict',
+        path: '/',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
 
       const profileResponse = await apiClient('/auth/profile', {
         method: 'GET',
         headers: {
-          Authorization: `Bearer ${newAccessToken}`,
+          Authorization: `Bearer ${refreshTokenResponse.accessToken}`,
         },
       });
 
