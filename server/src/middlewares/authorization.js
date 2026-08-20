@@ -17,8 +17,14 @@ export const authorization = (secretKey) => (req, res, next) => {
     req.user = user;
 
     next();
-  } catch (err) {
-    return res.status(401).json({
+  } catch (error) {
+    if (error.name === 'TokenExpiredError') {
+      return res.status(401).json({
+        success: false,
+        message: 'Token expired. Please log in again!',
+      });
+    }
+    return res.status(403).json({
       success: false,
       error: 'Invalid Token!',
     });
