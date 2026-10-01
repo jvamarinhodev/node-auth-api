@@ -22,7 +22,7 @@ export const postLogin = async (req, res) => {
       secure: isProd,
       sameSite: 'strict',
       path: '/',
-      maxAge: 15 * 60 * 1000,
+      maxAge: 60000,
     });
 
     res.cookie('refreshToken', response.refreshToken, {
@@ -30,7 +30,7 @@ export const postLogin = async (req, res) => {
       secure: isProd,
       sameSite: 'strict',
       path: '/',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: 60000,
     });
 
     res.render('home/index');
