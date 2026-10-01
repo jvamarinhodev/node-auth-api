@@ -2,12 +2,16 @@ import { apiClient } from '../../services/apiServices.js';
 
 export const getPrivateAccess = async (req, res) => {
   try {
-    const token = req.cookies.accessToken;
+    if (!req.authHeader) {
+      return res.redirect('/login');
+    }
+
+    const token = req.authHeader;
 
     const response = await apiClient('/auth/profile', {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: token,
       },
     });
 
@@ -16,10 +20,12 @@ export const getPrivateAccess = async (req, res) => {
     console.log(error);
 
     if (error.status !== 401) {
-      return res.render('auth/login');
+      return res.redirect('/login');
     }
 
     try {
+      const isProd = process.env.NODE_ENV === 'production';
+
       const refreshToken = req.cookies.refreshToken;
 
       const refreshTokenResponse = await apiClient('/auth/refreshtoken', {
@@ -29,7 +35,7 @@ export const getPrivateAccess = async (req, res) => {
         },
       });
 
-      res.cookie('accessToken', refreshTokenResponse.accessToken, {
+      res.cookie('accessToken', refreshTokenResponse.newAccessToken, {
         httpOnly: true,
         secure: isProd,
         sameSite: 'strict',
@@ -55,8 +61,9 @@ export const getPrivateAccess = async (req, res) => {
       return res.render('dashboard/profile', { response: profileResponse });
     } catch (refreshError) {
       console.log(refreshError);
-
-      res.render('auth/login');
+      res.clearCookie('accessToken');
+      res.clearCookie('refreshToken');
+      res.redirect('/login');
     }
   }
 };
