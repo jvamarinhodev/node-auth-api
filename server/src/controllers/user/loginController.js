@@ -48,9 +48,6 @@ export const postLoginAuthorization = async (req, res) => {
         refreshToken,
       });
 
-      res.redirect('/dashboard');
-
-      console.log(accessToken);
     } else if (verify === false) {
       return res.status(400).json({
         success: false,
