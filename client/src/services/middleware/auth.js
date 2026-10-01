@@ -1,11 +1,9 @@
 export const attachToken = (req, res, next) => {
   const token = req.cookies.accessToken;
 
-
-  if (!token) {
-    return res.redirect('/login');
+  if (token) {
+    req.authHeader = `Bearer ${token}`;
   }
 
-  req.accessToken = token;
   next();
 };
