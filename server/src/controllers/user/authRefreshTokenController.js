@@ -17,7 +17,7 @@ export const postRefreshToken = async (req, res) => {
     console.log(process.env.JWT_ACCESS_TOKEN);
 
     //Create an accessToken using the data from the existing refreshToken
-    const accessToken = jwt.sign({ id: req.user.id }, process.env.JWT_ACCESS_TOKEN, { expiresIn: '10m' });
+    const accessToken = jwt.sign({ id: req.user.id }, process.env.JWT_ACCESS_TOKEN, { expiresIn: '1m' });
 
     res.status(201).json({
       success: true,
