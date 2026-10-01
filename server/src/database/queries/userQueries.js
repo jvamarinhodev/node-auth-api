@@ -29,7 +29,7 @@ export const getAllUsers = async () => {
 };
 
 export const getUserByRefreshToken = async (refreshToken) => {
-  const result = await pool.query('SELECT * FROM users WHERE refresh_token = $1', [refreshToken]);
+  const result = await pool.query('SELECT * FROM refresh_token WHERE token_hash = $1', [refreshToken]);
   return result.rows;
 };
 
